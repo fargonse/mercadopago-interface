@@ -16,7 +16,19 @@ class Client extends Model
         'alias',
     ];
 
-    public function users(){
+    public function users()
+    {
         return $this->hasMany(User::class);
+    }
+
+    public function getEnv(){
+        return app()->environment();
+    }
+
+    public function appToken()
+    {
+        return $this
+            ->hasOne(AppToken::class)
+            ->where('mode', app()->environment());
     }
 }
