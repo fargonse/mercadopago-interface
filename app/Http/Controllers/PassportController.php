@@ -16,23 +16,23 @@ class PassportController extends Controller
     /*
     public function register(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|min:3',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-        ]);
+    $this->validate($request, [
+    'name' => 'required|min:3',
+    'email' => 'required|email|unique:users',
+    'password' => 'required|min:6',
+    ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password)
-        ]);
+    $user = User::create([
+    'name' => $request->name,
+    'email' => $request->email,
+    'password' => bcrypt($request->password)
+    ]);
 
-        $token = $user->createToken('preferences')->accessToken;
+    $token = $user->createToken('preferences')->accessToken;
 
-        return response()->json(['token' => $token], 200);
+    return response()->json(['token' => $token], 200);
     }
-    */
+     */
 
     /**
      * Handles Login Request
@@ -44,11 +44,15 @@ class PassportController extends Controller
     {
         $credentials = [
             'email' => $request->email,
-            'password' => $request->password
+            'password' => $request->password,
         ];
 
         if (auth()->attempt($credentials)) {
-            $token = auth()->user()->createToken('preferences')->accessToken;
+            $token = auth()
+                ->user()
+                ->createToken('preferences')
+                ->accessToken;
+
             return response()->json(['token' => $token], 200);
         } else {
             return response()->json(['error' => 'UnAuthorised'], 401);
@@ -62,7 +66,10 @@ class PassportController extends Controller
      */
     public function revokeCurrentToken()
     {
-        auth()->user()->token()->revoke();
+        auth()
+            ->user()
+            ->token()
+            ->revoke();
 
         return response()->json(['status' => 'OK'], 200);
     }
@@ -74,6 +81,9 @@ class PassportController extends Controller
      */
     public function details()
     {
-        return response()->json(['user' => auth()->user()->token()], 200);
+        return response()->json([
+            'user' => auth()->user(),
+            'client' => auth()->user()->client,
+        ], 200);
     }
 }
