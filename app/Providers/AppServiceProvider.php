@@ -13,7 +13,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind('App\Repositories\Interfaces\PreferenceRepositoryInterface','App\Repositories\PreferenceRepository');
+        $this->app->bind('App\Repositories\Interfaces\PreferenceItemRepositoryInterface','App\Repositories\PreferenceItemRepository');
+        $this->app->bind('App\Repositories\Interfaces\PreferencPayerRepositoryInterface','App\Repositories\PreferencePayerRepository');
+        $this->app->bind('App\Repositories\Interfaces\PreferenceBackUrlRepositoryInterface','App\Repositories\PreferenceBackUrlRepository');
+        $this->app->bind('App\Repositories\Interfaces\PreferencePaymentMethodRepositoryInterface','App\Repositories\PreferencePaymentMethodRepository');
     }
 
     /**

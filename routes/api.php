@@ -21,6 +21,8 @@ Route::middleware('auth:api')->group(function () {
 
     Route::delete('logout', 'PassportController@revokeCurrentToken');
 
+
+
     //Route::get('user/requests', 'RequestController@GetRequests');
 
 	//Route::post('mercadopago', 'MercadoPagoController@MercadoPagoRequest');
