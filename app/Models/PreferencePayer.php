@@ -9,7 +9,16 @@ class PreferencePayer extends Model
 
     protected $guard = ['id'];
 
+    protected $fillable = [
+        'name',
+        'surname',
+        'email',
+        'phone_number',
+        'identification_type',
+        'identification_number',
+    ];
+
     public function preferences(){
-        $this->hasMany( Preference::class );
+        return $this->hasMany( Preference::class );
     }
 }

@@ -8,23 +8,34 @@ class Preference extends Model
 {
     protected $guard = ['id'];
 
+    protected $fillable = [
+        'preference_payer_id',
+        'client_id',
+        'auto_return',
+        'notification_url',
+        'external_reference',
+        'expires',
+        'expiration_date_from',
+        'expiration_date_to',
+    ];
+
     public function client(){
-        $this->belongsTo( Client::class );
+        return $this->belongsTo( Client::class );
     }
 
     public function items(){
-        $this->hasMany( PreferenceItem::class );
+        return $this->hasMany( PreferenceItem::class );
     }
 
     public function payer(){
-        $this->belongsTo( PreferencePayer::class );
+        return $this->belongsTo( PreferencePayer::class, 'preference_payer_id' );
     }
 
     public function back_urls(){
-        $this->hasOne( PreferenceBackUrl::class );
+        return $this->hasOne( PreferenceBackUrl::class );
     }
 
     public function payment_method(){
-        $this->hasOne( PreferencePaymentMethod::class );
+        return $this->hasOne( PreferencePaymentMethod::class );
     }
 }
