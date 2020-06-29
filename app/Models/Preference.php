@@ -17,7 +17,7 @@ class Preference extends Model
     }
 
     public function payer(){
-        $this->hasOne( PreferencePayer::class );
+        $this->belongsTo( PreferencePayer::class );
     }
 
     public function back_urls(){
