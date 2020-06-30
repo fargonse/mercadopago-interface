@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Preference extends Model
 {
-    protected $guard = ['id'];
+    protected $guarded = ['id'];
 
     protected $fillable = [
         'preference_payer_id',

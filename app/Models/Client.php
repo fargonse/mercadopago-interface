@@ -9,7 +9,7 @@ class Client extends Model
 {
     use SoftDeletes;
 
-    protected $guard = ['id'];
+    protected $guarded = ['id'];
 
     protected $fillable = [
         'name',
