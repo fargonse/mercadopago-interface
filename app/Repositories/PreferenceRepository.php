@@ -2,34 +2,52 @@
 
 namespace App\Repositories;
 
-use App\Models\Preference;
 use App\Repositories\Interfaces\PreferenceRepositoryInterface;
-use App\Repositories\PreferencePayerRepository;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\DB;
 
 class PreferenceRepository implements PreferenceRepositoryInterface{
 
     protected $payerRepository;
     protected $itemRepository;
+    protected $paymentMethodRepository;
 
     public function __construct()
     {
         $this->payerRepository = new PreferencePayerRepository();
         $this->itemRepository = new PreferenceItemRepository();
+        $this->mercadoPagoRepository = new MercadoPagoRepository();
     }
 
-    public function create(array $request, User $user)
+    public function get_link(array $request, User $user)
     {
-        $payer = $this->payerRepository->updateOrCreate( $request );
+        $preference = $this->create( $request, $user );
 
-        $request["client_id"] = $user->client_id;
+        return $this->mercadoPagoRepository->get_link( $preference, $user );
+    }
 
-        $request["preference_payer_id"] = $payer->id;
+    protected function create(array $request, User $user)
+    {
+        $link = null;
+        DB::beginTransaction();
 
-        $preference = Preference::create($request);
+        try {
+            $payer = $this->payerRepository->updateOrCreate( $request["payer"] );
 
-        $request["preference_id"] = $preference->id;
+            $request["client_id"] = $user->client_id;
 
-        $item = $this->itemRepository->create( $request );
+            $preference = $payer->preferences()->create( $request );
+
+            $preference->items()->create( $request["item"] );
+
+            $preference->back_urls()->create( $request["back_urls"] );
+
+            DB::commit();
+        } catch ( \Throwable $e){
+            DB::rollBack();
+            throw new \Exception( $e->getMessage(), $e->getCode() );
+        }
+
+        return $preference;
     }
 }

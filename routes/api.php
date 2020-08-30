@@ -21,7 +21,9 @@ Route::middleware('auth:api')->group(function () {
 
     Route::delete('logout', 'PassportController@revokeCurrentToken');
 
-    Route::post('preference/store', 'PreferenceController@store');
+    Route::post('get-links', 'BatchPreferenceController@store');
+
+    Route::post('get-link', 'PreferenceController@store');
 
     //Route::get('user/requests', 'RequestController@GetRequests');
 

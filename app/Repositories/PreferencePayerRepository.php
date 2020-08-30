@@ -6,11 +6,6 @@ use App\Models\PreferencePayer;
 use App\Repositories\Interfaces\PreferencePayerRepositoryInterface;
 
 class PreferencePayerRepository implements PreferencePayerRepositoryInterface{
-    public function create(array $request)
-    {
-        // TODO: Implement create() method.
-    }
-
     public function updateOrCreate(array $request)
     {
         $payer = PreferencePayer::firstOrCreate(

@@ -6,6 +6,6 @@ use Illuminate\Foundation\Auth\User;
 
 interface PreferenceRepositoryInterface{
 
-    public function create(array  $request, User $user);
+    public function get_link(array  $request, User $user);
 
 }
