@@ -56,6 +56,7 @@ class BatchPreferenceController extends Controller
 
             $itemCollection->code = $request["external_reference"];
             $itemCollection->link = $this->preferenceRepository->get_link( $data, auth()->user() );
+            $itemCollection->error = null;
 
             $collectionReturn->push( $itemCollection );
         }
